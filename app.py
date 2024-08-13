@@ -58,126 +58,18 @@ def recommend():
         distance = int(request.form['distance'])
         lie = request.form['lie']
         club = recommend_club(distance, lie)
-        return f'''
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Recommended Club</title>
-            <style>
-                body {{
-                    font-family: 'Arial', sans-serif;
-                    background-color: #f0f2f5;
-                    margin: 0;
-                    padding: 0;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                }}
-                .container {{
-                    background-color: #fff;
-                    padding: 30px;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                    text-align: center;
-                    max-width: 400px;
-                    width: 100%;
-                }}
-                h1 {{
-                    color: #333;
-                    margin-bottom: 20px;
-                }}
-                a {{
-                    display: inline-block;
-                    margin-top: 20px;
-                    text-decoration: none;
-                    color: #007bff;
-                }}
-                a:hover {{
-                    text-decoration: underline;
-                }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>Your Recommended Club is: {club}</h1>
-                <a href="/">Try Again</a>
-            </div>
-        </body>
-        </html>
-        '''
+        return render_template('results.html', title="Recommended Club", message=f"Your Recommended Club is: {club}")
     except Exception as e:
-        return f'''
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Error</title>
-            <style>
-                body {{
-                    font-family: 'Arial', sans-serif;
-                    background-color: #f0f2f5;
-                    margin: 0;
-                    padding: 0;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                }}
-                .container {{
-                    background-color: #fff;
-                    padding: 30px;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                    text-align: center;
-                    max-width: 400px;
-                    width: 100%;
-                }}
-                h1 {{
-                    color: #333;
-                    margin-bottom: 20px;
-                }}
-                a {{
-                    display: inline-block;
-                    margin-top: 20px;
-                    text-decoration: none;
-                    color: #007bff;
-                }}
-                a:hover {{
-                    text-decoration: underline;
-                }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>An error occurred: {str(e)}</h1>
-                <a href="/">Try Again</a>
-            </div>
-        </body>
-        </html>
-        '''
+        return render_template('results.html', title="Error", message=f"An error occurred: {str(e)}")
 
 @app.route('/track_score', methods=['POST'])
 def track_score():
-    scores = [int(request.form[f'hole{i}']) for i in range(1, 19)]
-    total_score = sum(scores)
-    return f'''
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Total Score</title>
-        <style>
-            body {{
-                font-family: 'Arial', sans-serif;
-                background-color: #f0f2f5;
-                margin: 0;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
+    try:
+        scores = [int(request.form[f'hole{i}']) for i in range(1, 19)]
+        total_score = sum(scores)
+        return render_template('results.html', title="Total Score", message=f"Your Total Score is: {total_score}")
+    except Exception as e:
+        return render_template('results.html', title="Error", message=f"An error occurred: {str(e)}")
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5005)
