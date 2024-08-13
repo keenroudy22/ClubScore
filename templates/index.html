@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golf App</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Golf Club Recommender</h1>
+        <form action="/recommend" method="POST">
+            <label for="distance">Distance to the hole (yards):</label>
+            <input type="number" id="distance" name="distance" required>
+
+            <label for="lie">Lie of the ball:</label>
+            <select id="lie" name="lie" required>
+                <option value="fairway">Fairway</option>
+                <option value="rough">Rough</option>
+                <option value="sand">Sand</option>
+                <option value="green">Green</option>
+            </select>
+
+            <input type="submit" value="Recommend Club">
+        </form>
+
+        <h1>Golf Score Tracker</h1>
+        <form action="/track_score" method="POST">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hole</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(1, 19) %}
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td><input type="number" name="hole{{ i }}" min="1" max="10" required></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="submit" value="Submit Scores">
+        </form>
+    </div>
+</body>
+</html>
